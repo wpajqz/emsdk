@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-//增加群组
+// 增加群组
 func (c *Client) AddGroup(groupName, desc, owner string, public, approval bool, maxUsers int, members []string) (string, error) {
 	url := "chatgroups"
 	var res string
@@ -50,7 +50,7 @@ func (c *Client) AddGroup(groupName, desc, owner string, public, approval bool, 
 	return (restruct.Data.Groupid), err
 }
 
-//修改群组
+// 修改群组
 func (c *Client) ModGroup(groupname, description, groupid string, maxusers int) error {
 	url := "chatgroups/" + groupid
 	group := struct {
@@ -73,7 +73,7 @@ func (c *Client) ModGroup(groupname, description, groupid string, maxusers int) 
 	return err
 }
 
-//删除群组
+// 删除群组
 func (c *Client) DelGroup(groupid string) error {
 	url := "chatgroups/" + groupid
 	_, err := c.sendRequest(url, strings.NewReader(""), "DELETE")
@@ -81,7 +81,7 @@ func (c *Client) DelGroup(groupid string) error {
 	return err
 }
 
-//获取APP中所有群组
+// 获取APP中所有群组
 func (c *Client) FetchAllGroupFromApp() (string, error) {
 	url := "chatgroups/"
 	result, err := c.sendRequest(url, strings.NewReader(""), "GET")
@@ -89,7 +89,7 @@ func (c *Client) FetchAllGroupFromApp() (string, error) {
 	return result, err
 }
 
-//获取群组详情  groupid := "group1,group2..."
+// 获取群组详情  groupid := "group1,group2..."
 func (c *Client) FetchGroupInfo(groupid string) (string, error) {
 	url := "chatgroups/" + groupid
 	result, err := c.sendRequest(url, strings.NewReader(""), "GET")
@@ -97,7 +97,7 @@ func (c *Client) FetchGroupInfo(groupid string) (string, error) {
 	return result, err
 }
 
-//获取群组所有成员
+// 获取群组所有成员
 func (c *Client) FetchUserFromGroup(groupid string) (string, error) {
 	url := "chatgroups/" + groupid + "/users"
 	result, err := c.sendRequest(url, strings.NewReader(""), "GET")
@@ -105,7 +105,7 @@ func (c *Client) FetchUserFromGroup(groupid string) (string, error) {
 	return result, err
 }
 
-//增加群组成员(单个)
+// 增加群组成员(单个)
 func (c *Client) AddUserToGroup(groupid, username string) error {
 	url := "chatgroups/" + groupid + "/users/" + username
 	_, err := c.sendRequest(url, strings.NewReader(""), "POST")
@@ -113,7 +113,7 @@ func (c *Client) AddUserToGroup(groupid, username string) error {
 	return err
 }
 
-//增加群组成员(批量)
+// 增加群组成员(批量)
 func (c *Client) AddBatchUserToGroup(groupid string, usernames []string) error {
 	url := "chatgroups/" + groupid + "/users"
 	users := struct {
@@ -132,7 +132,7 @@ func (c *Client) AddBatchUserToGroup(groupid string, usernames []string) error {
 	return err
 }
 
-//移除群组成员(单个)
+// 移除群组成员(单个)
 func (c *Client) DelUserFromGroup(groupid, username string) error {
 	url := "chatgroups/" + groupid + "/users/" + username
 	_, err := c.sendRequest(url, strings.NewReader(""), "DELETE")
@@ -140,7 +140,7 @@ func (c *Client) DelUserFromGroup(groupid, username string) error {
 	return err
 }
 
-//移除群组成员(批量) members := "member1,member2..."
+// 移除群组成员(批量) members := "member1,member2..."
 func (c *Client) DelBatchUserFromGroup(groupid, members string) error {
 	url := "chatgroups/" + groupid + "/users/" + members
 	_, err := c.sendRequest(url, strings.NewReader(""), "DELETE")
@@ -148,7 +148,7 @@ func (c *Client) DelBatchUserFromGroup(groupid, members string) error {
 	return err
 }
 
-//获取一个用户参与的所有群组
+// 获取一个用户参与的所有群组
 func (c *Client) FetchGroupFromUserJoined(username string) (string, error) {
 	url := "users/" + username + "/joined_chatgroups"
 	result, err := c.sendRequest(url, strings.NewReader(""), "GET")
@@ -156,7 +156,7 @@ func (c *Client) FetchGroupFromUserJoined(username string) (string, error) {
 	return result, err
 }
 
-//修改群组 Owner 为同一 APP 下的其他用户
+// 修改群组 Owner 为同一 APP 下的其他用户
 func (c *Client) ChangeOwner(groupid, username string) error {
 	url := "chatgroups/" + groupid
 	owner := struct {
@@ -175,7 +175,7 @@ func (c *Client) ChangeOwner(groupid, username string) error {
 	return err
 }
 
-//查询一个群组黑名单用户名列表
+// 查询一个群组黑名单用户名列表
 func (c *Client) FetchUserFromBlackList(groupid string) (string, error) {
 	url := "chatgroups/" + groupid + "/blocks/users"
 	result, err := c.sendRequest(url, strings.NewReader(""), "GET")
@@ -183,7 +183,7 @@ func (c *Client) FetchUserFromBlackList(groupid string) (string, error) {
 	return result, err
 }
 
-//添加一个用户进入一个群组的黑名单
+// 添加一个用户进入一个群组的黑名单
 func (c *Client) AddUserToBlack(groupid, username string) error {
 	url := "chatgroups/" + groupid + "/blocks/users/" + username
 	_, err := c.sendRequest(url, strings.NewReader(""), "POST")
@@ -191,7 +191,7 @@ func (c *Client) AddUserToBlack(groupid, username string) error {
 	return err
 }
 
-//批量添加多个用户进入一个群组的黑名单
+// 批量添加多个用户进入一个群组的黑名单
 func (c *Client) AddBatchUserToBlackList(groupid string, usernames []string) error {
 	url := "chatgroups/" + groupid + "/blocks/users"
 	users := struct {
@@ -210,7 +210,7 @@ func (c *Client) AddBatchUserToBlackList(groupid string, usernames []string) err
 	return err
 }
 
-//从群组黑名单中移除一个用户
+// 从群组黑名单中移除一个用户
 func (c *Client) DelUserFromBlackList(groupid, username string) error {
 	url := "chatgroups/" + groupid + "/blocks/users/" + username
 	_, err := c.sendRequest(url, strings.NewReader(""), "DELETE")
@@ -218,7 +218,7 @@ func (c *Client) DelUserFromBlackList(groupid, username string) error {
 	return err
 }
 
-//从群组黑名单中移除用户(批量) members := "member1,member2..."
+// 从群组黑名单中移除用户(批量) members := "member1,member2..."
 func (c *Client) DelBatchUserFromBlackList(groupid, members string) error {
 	url := "chatgroups/" + groupid + "/blocks/users/" + members
 	_, err := c.sendRequest(url, strings.NewReader(""), "DELETE")
